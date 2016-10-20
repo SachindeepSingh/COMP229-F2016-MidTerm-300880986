@@ -1,5 +1,9 @@
 ﻿<%@ Page Title="Todo List" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="TodoList.aspx.cs" Inherits="COMP229_F2016_MidTerm_300880986.TodoList" %>
-
+<%--Name: Sachindeep Singh--%>
+<%--Student ID: 300880986 --%>
+<%-- Date Modofied: 19-oct-2016 --%>
+<%-- file:Site.master --%>
+<%-- version 1.0.0.1 --%>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
        <div class="container">
         <div class="row">
@@ -14,10 +18,10 @@
          OnRowDeleting="TodoGridView_RowDeleting">
 
                     <Columns>
-                        <asp:BoundField DataField="TodoID" HeaderText="TodoID" Visible="true"/>
+                      
                         <asp:BoundField DataField="TodoDescription" HeaderText="Todo Description" Visible="true" />
                         <asp:BoundField DataField="TodoNotes" HeaderText="Todo Notes" Visible="true" />
-                      
+                        <asp:BoundField DataField="Completed" HeaderText="Completed" Visible="true" SortExpression="Completed" />
 
                         
             <asp:HyperLinkField HeaderText="Edit" Text="<i class='fa fa-pencil-square-o fa-lg'></i> Edit"

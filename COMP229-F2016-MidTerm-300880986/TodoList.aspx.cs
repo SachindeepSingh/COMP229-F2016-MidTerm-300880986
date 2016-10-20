@@ -18,7 +18,7 @@ namespace COMP229_F2016_MidTerm_300880986
         protected void Page_Load(object sender, EventArgs e)
         {
             // if loading the page for the first time
-            // populate the student grid
+            // populate the Todo grid
             if (!IsPostBack)
             {
                 // Get the Todo data
@@ -37,11 +37,11 @@ namespace COMP229_F2016_MidTerm_300880986
             using (TodoContext db = new TodoContext())
             {
 
-                // query the Student Table using EF and LINQ
+                // query the Todo Table using EF and LINQ
                 var ToDo = (from allTodos in db.Todoes
                             select allTodos);
 
-                // bind the result to the Students GridView
+                // bind the result to the TodoList GridView
                 TodoListGridView.DataSource = ToDo.ToList();
                 TodoListGridView.DataBind();
             }

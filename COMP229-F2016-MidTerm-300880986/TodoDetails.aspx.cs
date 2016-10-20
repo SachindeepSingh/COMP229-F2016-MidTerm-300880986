@@ -7,15 +7,14 @@ using System.Web.UI.WebControls;
 // using statements required for EF DB access
 using COMP229_F2016_MidTerm_300880986.Models;
 using System.Web.ModelBinding;
+using System.Linq.Dynamic;
 namespace COMP229_F2016_MidTerm_300880986
 {
     public partial class TodoDetails : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
+      
 
-        }
-
+      
         protected void CancelButton_Click(object sender, EventArgs e)
         {
             // Redirect back to the students page
@@ -27,10 +26,10 @@ namespace COMP229_F2016_MidTerm_300880986
             // Use EF to conect to the server
             using (TodoContext db = new TodoContext())
             {
-                // use the student model to create a new student object and 
+                // use the Todo model to create a new Todo object and 
                 // save a new record
 
-                TodoList newTodo = new TodoList();
+                Todo newTodo = new Todo();
 
                 int TodoID = 0;
 
@@ -39,23 +38,28 @@ namespace COMP229_F2016_MidTerm_300880986
                     // get the id from the URL
                 }
 
-                // add form data to the new student record
-                newTodo.TodoName = TodoNameTextBox.Text;
+                // add form data to the new TodoList record
+                newTodo.TodoDescription = TodoNameTextBox.Text;
                 newTodo.TodoNotes = TodoNotesTextBox.Text;
-                
+                //newTodo.Completed = Convert.ToBoolean(CompletedTextBox.Text);
 
-                // use LINQ to ADO.NET to add / insert new student into the db
+
+
+
+
+
+                // use LINQ to ADO.NET to add / insert new Todo into the db
 
                 if (TodoID == 0)
                 {
-                    db.TodoList.Add(newTodo);
+                    db.Todoes.Add(newTodo);
                 }
 
                 // save our changes - also updates and inserts
                 db.SaveChanges();
 
-                // Redirect back to the updated students page
-                Response.Redirect("~/Students.aspx");
+                // Redirect back to the updated Todo's page
+                Response.Redirect("~/TodoList.aspx");
             }
         }
     }
