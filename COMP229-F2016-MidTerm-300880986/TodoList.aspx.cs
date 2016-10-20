@@ -17,59 +17,62 @@ namespace COMP229_F2016_MidTerm_300880986
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // if loading the page for the first time
+            // populate the student grid
+            if (!IsPostBack)
+            {
+                // Get the Todo data
+                this.TodoData();
+            }
 
-            // Get the student data
-            this.GetTodoList();
         }
-    }
 
-    /// <summary>
-    /// This method gets the student data from the DB
-    /// </summary>
-    private void GetTodoList()
-    {
-        // connect to EF DB
-        using (TodoContext db = new TodoContext())
+
+        /// <summary>
+        /// This method gets the Todo data from the DB
+        /// </summary>
+        private void TodoData()
         {
-            // query the Student Table using EF and LINQ
-            var Students = (from allTodoList in db.Todo
-                            select allTodoList);
+            // connect to DB
+            using (TodoContext db = new TodoContext())
+            {
 
-            // bind the result to the Students GridView
-            TodoListGridView.DataSource = Todo.ToList();
-            TodoListGridView.DataBind();
+                // query the Student Table using EF and LINQ
+                var ToDo = (from allTodos in db.Todoes
+                            select allTodos);
+
+                // bind the result to the Students GridView
+                TodoListGridView.DataSource = ToDo.ToList();
+                TodoListGridView.DataBind();
+            }
         }
-    }
 
-    protected void TodoListGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
-    {
-
-
-        // store which row was clicked
-        int selectedRow = e.RowIndex;
-
-        // get the selected StudentID using the Grid's DataKey collection
-        int StudentID = Convert.ToInt32(TodoListGridView.DataKeys[selectedRow].Values["TodoID"]);
-
-        // use EF and LINQ to find the selected student in the DB and remove it
-        using (TodoContext db = new TodoContext())
+        protected void TodoGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            // create object ot the student clas and store the query inside of it
-            TodoList deletedTodo = (from studentRecords in db.Todoes
-                                      where studentRecords.StudentID == StudentID
-                                      select studentRecords).FirstOrDefault();
+            // store which row was clicked
+            int selectedRow = e.RowIndex;
 
-            // remove the selected student from the db
-            db.Todoes.Remove(deletedTodo);
+            // get the selected todoID using the Grid's DataKey collection
+            int TodoID = Convert.ToInt32(TodoListGridView.DataKeys[selectedRow].Values["TodoID"]);
 
-            // save my changes back to the db
-            db.SaveChanges();
+            // use EF and LINQ to find the selected todo in the DB and remove it
+            using (TodoContext db = new TodoContext())
+            {
+                // create object to the todo clas and store the query inside of it
+                Todo deleteTodo = (from TodoRecords in db.Todoes
+                                   where TodoRecords.TodoID == TodoID
+                                   select TodoRecords).FirstOrDefault();
 
-            // refresh the grid
-            this.GetTodoList();
+                // remove the selected todo from the db
+                db.Todoes.Remove(deleteTodo);
+
+                // save my changes back to the db
+                db.SaveChanges();
+
+                // refresh the grid
+                this.TodoData();
+            }
+
         }
-
-
     }
-}
 }
